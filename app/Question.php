@@ -8,7 +8,7 @@ class Question extends Model
 {
     protected $fillable = ['title','body','user_id'];
 
-    public function Topics()
+    public function topics()
     {
         return $this->belongsToMany(Topic::class)->withTimestamps();
     }
