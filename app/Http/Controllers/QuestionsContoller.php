@@ -42,6 +42,7 @@ class QuestionsContoller extends Controller
      */
     public function store(StoreQuestionRequest $request)
     {
+        dd($request->get('topics'));
 //        return $request->all();
 
 //        $rules = [
