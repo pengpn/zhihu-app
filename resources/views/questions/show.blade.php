@@ -17,6 +17,12 @@
                     <div class="panel-body">
                         {!! $question->body !!}
                     </div>
+
+                    <div class="action">
+                        @if(Auth::check() && Auth::user()->owns($question))
+                            <span class="edit"><a href="{{ route('questions.edit',$question->id) }}">编辑</a></span>
+                        @endif
+                    </div>
                 </div>
             </div>
         </div>
