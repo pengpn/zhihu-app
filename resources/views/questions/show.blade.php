@@ -11,7 +11,7 @@
                     <div class="panel-heading">
                         {{ $question->title }}
                         @foreach($question->topics as $topic)
-                            <span class="topic">{{ $topic->name }}</span>
+                            <a href="#" class="topic"><span class="topic">{{ $topic->name }}</span></a>
                         @endforeach
                     </div>
                     <div class="panel-body">
