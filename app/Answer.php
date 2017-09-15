@@ -2,6 +2,7 @@
 
 namespace App;
 
+use App\Repositories\AnswerRepository;
 use Illuminate\Database\Eloquent\Model;
 
 class Answer extends Model

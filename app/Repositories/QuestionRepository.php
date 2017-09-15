@@ -6,9 +6,9 @@ use App\Topic;
 
 class QuestionRepository
 {
-    public function byIdWithTopics($id)
+    public function byIdWithTopicsAndAnswers($id)
     {
-        return Question::where('id',$id)->with('topics')->first();
+        return Question::where('id',$id)->with(['topics','answers'])->first();
     }
 
     public function create(array $attributes)
