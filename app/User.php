@@ -35,6 +35,21 @@ class User extends Authenticatable
         return $this->id == $model->user_id;
     }
 
+    public function follows()
+    {
+        return $this->belongsToMany(Question::class,'user_question')->withTimestamps();
+    }
+
+    public function followThis($question)
+    {
+        return $this->follows()->toggle($question);
+    }
+
+    public function followed($question)
+    {
+        return $this->follows()->where('question_id',$question)->count();
+    }
+
     public function sendPasswordResetNotification($token)
     {
         $bind_data = [
