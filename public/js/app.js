@@ -43513,13 +43513,14 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     },
     data: function data() {
         return {
-            voted: false
+            voted: false,
+            voted_count: this.count
         };
     },
 
     computed: {
         text: function text() {
-            return this.count;
+            return this.voted_count;
         }
     },
     methods: {
@@ -43528,7 +43529,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
             axios.post('/api/answer/vote', { 'answer': this.answer }).then(function (response) {
                 _this2.voted = response.data.voted;
-                response.data.voted ? _this2.count++ : _this2.count--;
+                response.data.voted ? _this2.voted_count++ : _this2.voted_count--;
             });
         }
     }
