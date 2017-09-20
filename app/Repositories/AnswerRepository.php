@@ -13,6 +13,11 @@ use App\Answer;
 
 class AnswerRepository
 {
+    public function byId($id)
+    {
+        return Answer::find($id);
+    }
+
     public function create(array $attributes)
     {
         return Answer::create($attributes);
