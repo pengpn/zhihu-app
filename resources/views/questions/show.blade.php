@@ -27,6 +27,11 @@
                                 <button class="button is_naked delete-button">删除</button>
                             </form>
                         @endif
+                            <comments type="question"
+                                      model="{{ $question->id }}"
+                                      count="{{ $question->comments()->count() }}">
+
+                            </comments>
                     </div>
                 </div>
             </div>
@@ -67,6 +72,11 @@
                                     </h4>
                                     {!! $answer->body !!}
                                 </div>
+                                <comments type="answer"
+                                          model="{{ $answer->id }}"
+                                          count="{{ $answer->comments()->count() }}">
+
+                                </comments>
                             </div>
                         @endforeach
 
