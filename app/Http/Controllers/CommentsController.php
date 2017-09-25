@@ -2,40 +2,83 @@
 
 namespace App\Http\Controllers;
 
-use App\Answer;
-use App\Comment;
-use App\Question;
+
+use App\Repositories\AnswerRepository;
+use App\Repositories\CommentRepository;
+use App\Repositories\QuestionRepository;
 use Auth;
 use Illuminate\Http\Request;
 
+/**
+ * Class CommentsController
+ * @package App\Http\Controllers
+ */
 class CommentsController extends Controller
 {
+    /**
+     * @var AnswerRepository
+     */
+    protected $answerRepository;
+    /**
+     * @var QuestionRepository
+     */
+    protected $questionRepository;
+    /**
+     * @var CommentRepository
+     */
+    protected $commentRepository;
+
+    /**
+     * CommentsController constructor.
+     * @param $answerRepository
+     * @param $questionRepository
+     * @param $commentRepository
+     */
+    public function __construct(AnswerRepository $answerRepository,QuestionRepository $questionRepository,CommentRepository $commentRepository)
+    {
+        $this->answerRepository = $answerRepository;
+        $this->questionRepository = $questionRepository;
+        $this->commentRepository = $commentRepository;
+    }
+
+    /**
+     * @param $id
+     * @return mixed
+     */
     public function answer($id)
     {
-        $answer = Answer::with('comments','comments.user')->where('id',$id)->first();
-        return $answer->comments;
+        return $this->answerRepository->getAnswerCommentById($id);
     }
 
+    /**
+     * @param $id
+     * @return mixed
+     */
     public function question($id)
     {
-        $question = Question::with('comments','comments.user')->where('id',$id)->first();
-        return $question->comments;
+        return $this->questionRepository->getQuestionCommentsById($id);
     }
 
+    /**
+     * @param Request $request
+     * @return $this|\Illuminate\Database\Eloquent\Model
+     */
     public function store(Request $request)
     {
         $model = $this->getModelNameFromType($request->get('type'));
 
-        $comment = Comment::create([
+        return $this->commentRepository->create([
            'commentable_id' => $request->get('model'),
            'commentable_type' => $model,
            'user_id' => Auth::guard('api')->user()->id,
             'body' => $request->get('body')
         ]);
-
-        return $comment;
     }
 
+    /**
+     * @param $type
+     * @return string
+     */
     public function getModelNameFromType($type)
     {
         return $type === 'question' ? 'App\Question' : 'App\Answer';

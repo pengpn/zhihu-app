@@ -22,4 +22,10 @@ class AnswerRepository
     {
         return Answer::create($attributes);
     }
+
+    public function getAnswerCommentById($id)
+    {
+        $answer = Answer::with('comments','comments.user')->where('id',$id)->first();
+        return $answer->comments;
+    }
 }
