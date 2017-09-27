@@ -7,22 +7,30 @@
                 <div class="panel panel-default">
                     <div class="panel-heading">消息通知</div>
                     <div class="panel-body">
-                        @foreach($messages as $messageGroup)
+                        @foreach($messages as $key => $messageGroup)
                             <div class="media">
                                 <div class="media-left">
                                     <a href="#">
+                                        @if(Auth::id() == $key)
                                         <img width="32" src="{{ $messageGroup->first()->fromUser->avatar }}" alt="">
+                                        @else
+                                        <img width="32" src="{{ $messageGroup->first()->toUser->avatar }}" alt="">
+                                        @endif
                                     </a>
                                 </div>
                                 <div class="media-body">
                                     <h4 class="media-heading">
                                         <a href="#">
+                                            @if(Auth::id() == $key)
                                             {{ $messageGroup->first()->fromUser->name }}
+                                            @else
+                                            {{ $messageGroup->first()->toUser->name }}
+                                            @endif
                                         </a>
                                     </h4>
                                     <p>
-                                        <a href="{{ route('inbox.show') }}">
-                                            {{ $messageGroup->first()->body }}
+                                        <a href="/inbox/{{ $messageGroup->last()->dialog_id }}">
+                                            {{ $messageGroup->last()->body }}
                                         </a>
                                     </p>
                                 </div>

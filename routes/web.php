@@ -28,4 +28,4 @@ Route::get('/questions/{question}/follow','QuestionFollowController@follow')->na
 Route::get('notifications','NotificationsController@index');
 
 Route::get('inbox','InboxController@index');
-Route::get('inbox/{userId}','InboxController@show')->name('inbox.show');
+Route::get('inbox/{dialogId}','InboxController@show');

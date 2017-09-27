@@ -24,7 +24,8 @@ class MessagesController extends Controller
         $message = $this->messageRepository->create([
             'to_user_id' => $request->get('user'),
             'from_user_id' => Auth::guard('api')->user()->id,
-            'body' => $request->get('body')
+            'body' => $request->get('body'),
+            'dialog_id' => time().Auth::user()->id
         ]);
 
         if ($message) {
