@@ -22,6 +22,8 @@ Vue.component('user-vote-button', require('./components/UserVoteButton.vue'));
 Vue.component('send-message', require('./components/SendMessage.vue'));
 Vue.component('comments', require('./components/Comments.vue'));
 
+Vue.component('pulse-loader', require('vue-spinner/src/PulseLoader.vue'));
+
 const app = new Vue({
     el: '#app'
 });
