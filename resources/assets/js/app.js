@@ -21,6 +21,7 @@ Vue.component('user-follow-button', require('./components/UserFollowButton.vue')
 Vue.component('user-vote-button', require('./components/UserVoteButton.vue'));
 Vue.component('send-message', require('./components/SendMessage.vue'));
 Vue.component('comments', require('./components/Comments.vue'));
+Vue.component('user-avatar', require('./components/Avatar.vue'));
 
 Vue.component('pulse-loader', require('vue-spinner/src/PulseLoader.vue'));
 
