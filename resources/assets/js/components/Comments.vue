@@ -53,13 +53,6 @@
                 body: '',
                 comments_count: this.count,
                 comments: [],
-                newComment: {
-                    user: {
-                        name: Zhihu.name,
-                        avatar: Zhihu.avatar
-                    },
-                    body: ''
-                }
             }
         },
         computed: {
@@ -76,8 +69,14 @@
         methods: {
             store() {
                 axios.post('/api/comment',{'type':this.type,'model':this.model,'body': this.body}).then(response =>{
-                    this.newComment.body = response.data.body;
-                    this.comments.push(this.newComment)
+                    let comment = {
+                        user: {
+                            name: Zhihu.name,
+                            avatar: Zhihu.avatar
+                        },
+                        body: response.data.body
+                    }
+                    this.comments.push(comment)
                     this.body = ''
                     this.comments_count ++
                 })

@@ -43889,14 +43889,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         return {
             body: '',
             comments_count: this.count,
-            comments: [],
-            newComment: {
-                user: {
-                    name: Zhihu.name,
-                    avatar: Zhihu.avatar
-                },
-                body: ''
-            }
+            comments: []
         };
     },
 
@@ -43916,8 +43909,14 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             var _this = this;
 
             axios.post('/api/comment', { 'type': this.type, 'model': this.model, 'body': this.body }).then(function (response) {
-                _this.newComment.body = response.data.body;
-                _this.comments.push(_this.newComment);
+                var comment = {
+                    user: {
+                        name: Zhihu.name,
+                        avatar: Zhihu.avatar
+                    },
+                    body: response.data.body
+                };
+                _this.comments.push(comment);
                 _this.body = '';
                 _this.comments_count++;
             });
