@@ -65,7 +65,7 @@ class InboxController extends Controller
             'dialog_id' => $dialogId
         ]);
 
-        //触发通知
+        //触发通知 这里希望接收私信用户看到消息提示，所以用 toUser
         $newMessage->toUser->notify(new NewMessageNotification($newMessage));
 
         return back();
