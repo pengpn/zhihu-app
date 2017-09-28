@@ -2,52 +2,62 @@
 
 namespace App\Http\Controllers;
 
-use App\Message;
+use App\Repositories\MessageRepository;
 use Auth;
 use Illuminate\Http\Request;
 
+/**
+ * Class InboxController
+ * @package App\Http\Controllers
+ */
 class InboxController extends Controller
 {
+    /**
+     * @var MessageRepository
+     */
+    protected $messageRepository;
 
     /**
      * InboxController constructor.
      */
-    public function __construct()
+    public function __construct(MessageRepository $messageRepository)
     {
         $this->middleware('auth');//用户一定要登录进来才可以访问下面的所有方法
+        $this->messageRepository = $messageRepository;
     }
 
+    /**
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
     public function index()
     {
-        $messages = Message::where('to_user_id',user()->id)
-            ->orWhere('from_user_id',user()->id)
-            ->with(['fromUser' => function ($query){
-                return $query->select(['id','name','avatar']);
-            },'toUser' => function ($query) {
-                return $query->select(['id','name','avatar']);
-            }])->latest()->get();
+        $messages = $this->messageRepository->getAll();
         return view('inbox.index',['messages' => $messages->groupBy('dialog_id')]);
     }
 
+    /**
+     * @param $dialogId
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
     public function show($dialogId)
     {
-        $messages = Message::where('dialog_id',$dialogId)
-            ->with(['fromUser' => function ($query){
-            return $query->select(['id','name','avatar']);
-        },'toUser' => function ($query) {
-            return $query->select(['id','name','avatar']);
-        }])->latest()->get();
+        $messages = $this->messageRepository->getDialogMessagesByDialogId($dialogId);
         $messages->markAsRead();
         return view('inbox.show',compact('messages','dialogId'));
     }
 
+    /**
+     * @param Request $request
+     * @param $dialogId
+     * @return \Illuminate\Http\RedirectResponse
+     */
     public function store(Request $request, $dialogId)
     {
-        $message = Message::where('dialog_id',$dialogId)->first();
+        $message = $this->messageRepository->getSingleMessageBy($dialogId);
 
         $toUserId = $message->from_user_id === user()->id ? $message->to_user_id : $message->from_user_id;
 
-        Message::create([
+        $this->messageRepository->create([
             'from_user_id' => user()->id,
             'to_user_id' => $toUserId,
             'body' => $request->get('body'),
