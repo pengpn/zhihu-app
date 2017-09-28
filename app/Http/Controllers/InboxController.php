@@ -21,20 +21,30 @@ class InboxController extends Controller
     {
         $messages = Message::where('to_user_id',user()->id)
             ->orWhere('from_user_id',user()->id)
-            ->with(['fromUser','toUser'])->latest()->get();
-        return view('inbox.index',['messages' => $messages->unique('dialog_id')->groupBy('to_user_id')]);
+            ->with(['fromUser' => function ($query){
+                return $query->select(['id','name','avatar']);
+            },'toUser' => function ($query) {
+                return $query->select(['id','name','avatar']);
+            }])->latest()->get();
+        return view('inbox.index',['messages' => $messages->groupBy('dialog_id')]);
     }
 
     public function show($dialogId)
     {
-        $messages = Message::where('dialog_id',$dialogId)->latest()->get();
+        $messages = Message::where('dialog_id',$dialogId)
+            ->with(['fromUser' => function ($query){
+            return $query->select(['id','name','avatar']);
+        },'toUser' => function ($query) {
+            return $query->select(['id','name','avatar']);
+        }])->latest()->get();
+        $messages->markAsRead();
         return view('inbox.show',compact('messages','dialogId'));
     }
 
     public function store(Request $request, $dialogId)
     {
         $message = Message::where('dialog_id',$dialogId)->first();
-        $message->markAsRead();
+
         $toUserId = $message->from_user_id === user()->id ? $message->to_user_id : $message->from_user_id;
 
         Message::create([
