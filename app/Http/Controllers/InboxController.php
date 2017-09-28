@@ -34,6 +34,7 @@ class InboxController extends Controller
     public function store(Request $request, $dialogId)
     {
         $message = Message::where('dialog_id',$dialogId)->first();
+        $message->markAsRead();
         $toUserId = $message->from_user_id === user()->id ? $message->to_user_id : $message->from_user_id;
 
         Message::create([
