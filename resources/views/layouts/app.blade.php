@@ -21,6 +21,10 @@
             avatar : "{{ Auth::user()->avatar }}"
         }
         @endif
+
+        window.Laravel = {
+            'csrfToken' : "{{ csrf_token() }}"
+        }
     </script>
 </head>
 <body>

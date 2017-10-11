@@ -47992,8 +47992,12 @@ module.exports = Component.exports
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_babel_polyfill__ = __webpack_require__(183);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_babel_polyfill___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_babel_polyfill__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_vue_image_crop_upload_upload_1_vue__ = __webpack_require__(385);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_vue_image_crop_upload_upload_1_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_vue_image_crop_upload_upload_1_vue__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_vue_image_crop_upload__ = __webpack_require__(385);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_vue_image_crop_upload___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_vue_image_crop_upload__);
+//
+//
+//
+//
 //
 //
 //
@@ -48020,8 +48024,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         return {
             show: false,
             params: {
-                token: '123456798',
-                name: 'avatar'
+                _token: Laravel.csrfToken, //因为上传图片是post请求，所以要增加token的验证
+                name: 'img'
             },
             headers: {
                 smail: '*_~'
@@ -48031,14 +48035,13 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     },
 
     components: {
-        'my-upload': __WEBPACK_IMPORTED_MODULE_1_vue_image_crop_upload_upload_1_vue___default.a
+        'my-upload': __WEBPACK_IMPORTED_MODULE_1_vue_image_crop_upload___default.a
     },
     methods: {
         toggleShow: function toggleShow() {
             this.show = !this.show;
-        }
-    },
-    events: {
+        },
+
         /**
          * crop success
          *
@@ -48056,10 +48059,10 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
          * [param] jsonData   服务器返回数据，已进行json转码
          * [param] field
          */
-        cropUploadSuccess: function cropUploadSuccess(jsonData, field) {
+        cropUploadSuccess: function cropUploadSuccess(response, field) {
             console.log('-------- upload success --------');
-            console.log(jsonData);
-            console.log('field: ' + field);
+            this.imgDataUrl = response.url;
+            this.toggleShow();
         },
 
         /**
@@ -53406,9 +53409,9 @@ var Component = __webpack_require__(28)(
   /* moduleIdentifier (server only) */
   null
 )
-Component.options.__file = "/Users/pengpn/Code/zhihu/node_modules/vue-image-crop-upload/upload-1.vue"
+Component.options.__file = "/Users/pengpn/Code/zhihu/node_modules/vue-image-crop-upload/upload-2.vue"
 if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key.substr(0, 2) !== "__"})) {console.error("named exports are not supported in *.vue files.")}
-if (Component.options.functional) {console.error("[vue-loader] upload-1.vue: functional components are not supported with templates, they should use render functions.")}
+if (Component.options.functional) {console.error("[vue-loader] upload-2.vue: functional components are not supported with templates, they should use render functions.")}
 
 /* hot reload */
 if (false) {(function () {
@@ -53417,9 +53420,9 @@ if (false) {(function () {
   if (!hotAPI.compatible) return
   module.hot.accept()
   if (!module.hot.data) {
-    hotAPI.createRecord("data-v-3434844f", Component.options)
+    hotAPI.createRecord("data-v-34429bd0", Component.options)
   } else {
-    hotAPI.reload("data-v-3434844f", Component.options)
+    hotAPI.reload("data-v-34429bd0", Component.options)
   }
   module.hot.dispose(function (data) {
     disposed = true
@@ -53440,13 +53443,13 @@ var content = __webpack_require__(387);
 if(typeof content === 'string') content = [[module.i, content, '']];
 if(content.locals) module.exports = content.locals;
 // add the styles to the DOM
-var update = __webpack_require__(134)("8a8d2f16", content, false);
+var update = __webpack_require__(134)("3ef59050", content, false);
 // Hot Module Replacement
 if(false) {
  // When the styles change, update the <style> tags
  if(!content.locals) {
-   module.hot.accept("!!../css-loader/index.js!../vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-3434844f\",\"scoped\":false,\"hasInlineConfig\":true}!../vue-loader/lib/selector.js?type=styles&index=0!./upload-1.vue", function() {
-     var newContent = require("!!../css-loader/index.js!../vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-3434844f\",\"scoped\":false,\"hasInlineConfig\":true}!../vue-loader/lib/selector.js?type=styles&index=0!./upload-1.vue");
+   module.hot.accept("!!../css-loader/index.js!../vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-34429bd0\",\"scoped\":false,\"hasInlineConfig\":true}!../vue-loader/lib/selector.js?type=styles&index=0!./upload-2.vue", function() {
+     var newContent = require("!!../css-loader/index.js!../vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-34429bd0\",\"scoped\":false,\"hasInlineConfig\":true}!../vue-loader/lib/selector.js?type=styles&index=0!./upload-2.vue");
      if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
      update(newContent);
    });
@@ -53610,14 +53613,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
-//
 
 
 
@@ -53629,695 +53624,703 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
-    props: {
-        // 域，上传文件name，触发事件会带上（如果一个页面多个图片上传控件，可以做区分
-        field: {
-            type: String,
-            'default': 'avatar'
-        },
-        // 类似于id，触发事件会带上（如果一个页面多个图片上传控件，可以做区分
-        ki: {
-            'default': 0
-        },
-        // 显示该控件与否
-        value: {
-            twoWay: true,
-            'default': true
-        },
-        // 上传地址
-        url: {
-            type: String,
-            'default': ''
-        },
-        // 其他要上传文件附带的数据，对象格式
-        params: {
-            type: Object,
-            'default': null
-        },
-        //Add custom headers
-        headers: {
-            type: Object,
-            'default': null
-        },
-        // 剪裁图片的宽
-        width: {
-            type: Number,
-            default: 200
-        },
-        // 剪裁图片的高
-        height: {
-            type: Number,
-            default: 200
-        },
-        // 不预览圆形图片
-        noCircle: {
-            type: Boolean,
-            default: false
-        },
-        // 单文件大小限制
-        maxSize: {
-            type: Number,
-            'default': 10240
-        },
-        // 语言类型
-        langType: {
-            type: String,
-            'default': 'zh'
-        },
-        // 语言包
-        langExt: {
-            type: Object,
-            'default': null
-        },
-        // 图片上传格式
-        imgFormat: {
-            type: String,
-            'default': 'png'
-        }
-    },
-    data: function data() {
-        var that = this,
-            imgFormat = that.imgFormat,
-            langType = that.langType,
-            langExt = that.langExt,
-            width = that.width,
-            height = that.height,
-            isSupported = true,
-            allowImgFormat = ['jpg', 'png'],
-            tempImgFormat = allowImgFormat.indexOf(imgFormat) === -1 ? 'jpg' : imgFormat,
-            lang = __WEBPACK_IMPORTED_MODULE_0__utils_language_js__["a" /* default */][langType] ? __WEBPACK_IMPORTED_MODULE_0__utils_language_js__["a" /* default */][langType] : __WEBPACK_IMPORTED_MODULE_0__utils_language_js__["a" /* default */]['en'],
-            mime = __WEBPACK_IMPORTED_MODULE_1__utils_mimes_js__["a" /* default */][tempImgFormat];
-        // 规范图片格式
-        that.imgFormat = tempImgFormat;
+	props: {
+		// 域，上传文件name，触发事件会带上（如果一个页面多个图片上传控件，可以做区分
+		field: {
+			type: String,
+			'default': 'avatar'
+		},
+		// 原名key，类似于id，触发事件会带上（如果一个页面多个图片上传控件，可以做区分
+		ki: {
+			'default': 0
+		},
+		// 显示该控件与否
+		value: {
+			'default': true
+		},
+		// 上传地址
+		url: {
+			type: String,
+			'default': ''
+		},
+		// 其他要上传文件附带的数据，对象格式
+		params: {
+			type: Object,
+			'default': null
+		},
+		//Add custom headers
+		headers: {
+			type: Object,
+			'default': null
+		},
+		// 剪裁图片的宽
+		width: {
+			type: Number,
+			default: 200
+		},
+		// 剪裁图片的高
+		height: {
+			type: Number,
+			default: 200
+		},
+		// 不预览圆形图片
+		noCircle: {
+			type: Boolean,
+			default: false
+		},
+		// 单文件大小限制
+		maxSize: {
+			type: Number,
+			'default': 10240
+		},
+		// 语言类型
+		langType: {
+			type: String,
+			'default': 'zh'
+		},
+		// 语言包
+		langExt: {
+			type: Object,
+			'default': null
+		},
+		// 图片上传格式
+		imgFormat: {
+			type: String,
+			'default': 'png'
+		}
+	},
+	data: function data() {
+		var that = this,
+		    imgFormat = that.imgFormat,
+		    langType = that.langType,
+		    langExt = that.langExt,
+		    width = that.width,
+		    height = that.height,
+		    isSupported = true,
+		    allowImgFormat = ['jpg', 'png'],
+		    tempImgFormat = allowImgFormat.indexOf(imgFormat) === -1 ? 'jpg' : imgFormat,
+		    lang = __WEBPACK_IMPORTED_MODULE_0__utils_language_js__["a" /* default */][langType] ? __WEBPACK_IMPORTED_MODULE_0__utils_language_js__["a" /* default */][langType] : __WEBPACK_IMPORTED_MODULE_0__utils_language_js__["a" /* default */]['en'],
+		    mime = __WEBPACK_IMPORTED_MODULE_1__utils_mimes_js__["a" /* default */][tempImgFormat];
+		// 规范图片格式
+		that.imgFormat = tempImgFormat;
 
-        if (langExt) {
-            Object.assign(lang, langExt);
-        }
-        if (typeof FormData != 'function') {
-            isSupported = false;
-        }
-        return {
-            // 图片的mime
-            mime: mime,
+		if (langExt) {
+			Object.assign(lang, langExt);
+		}
+		if (typeof FormData != 'function') {
+			isSupported = false;
+		}
+		return {
+			// 图片的mime
+			mime: mime,
 
-            // 语言包
-            lang: lang,
+			// 语言包
+			lang: lang,
 
-            // 浏览器是否支持该控件
-            isSupported: isSupported,
-            // 浏览器是否支持触屏事件
-            isSupportTouch: document.hasOwnProperty("ontouchstart"),
+			// 浏览器是否支持该控件
+			isSupported: isSupported,
+			// 浏览器是否支持触屏事件
+			isSupportTouch: document.hasOwnProperty("ontouchstart"),
 
-            // 步骤
-            step: 1, //1选择文件 2剪裁 3上传
+			// 步骤
+			step: 1, //1选择文件 2剪裁 3上传
 
-            // 上传状态及进度
-            loading: 0, //0未开始 1正在 2成功 3错误
-            progress: 0,
+			// 上传状态及进度
+			loading: 0, //0未开始 1正在 2成功 3错误
+			progress: 0,
 
-            // 是否有错误及错误信息
-            hasError: false,
-            errorMsg: '',
+			// 是否有错误及错误信息
+			hasError: false,
+			errorMsg: '',
 
-            // 需求图宽高比
-            ratio: width / height,
+			// 需求图宽高比
+			ratio: width / height,
 
-            // 原图地址、生成图片地址
-            sourceImg: null,
-            sourceImgUrl: '',
-            createImgUrl: '',
+			// 原图地址、生成图片地址
+			sourceImg: null,
+			sourceImgUrl: '',
+			createImgUrl: '',
 
-            // 原图片拖动事件初始值
-            sourceImgMouseDown: {
-                on: false,
-                mX: 0, //鼠标按下的坐标
-                mY: 0,
-                x: 0, //scale原图坐标
-                y: 0
-            },
+			// 原图片拖动事件初始值
+			sourceImgMouseDown: {
+				on: false,
+				mX: 0, //鼠标按下的坐标
+				mY: 0,
+				x: 0, //scale原图坐标
+				y: 0
+			},
 
-            // 生成图片预览的容器大小
-            previewContainer: {
-                width: 100,
-                height: 100
-            },
+			// 生成图片预览的容器大小
+			previewContainer: {
+				width: 100,
+				height: 100
+			},
 
-            // 原图容器宽高
-            sourceImgContainer: { // sic
-                width: 240,
-                height: 180
-            },
+			// 原图容器宽高
+			sourceImgContainer: { // sic
+				width: 240,
+				height: 180
+			},
 
-            // 原图展示属性
-            scale: {
-                zoomAddOn: false, //按钮缩放事件开启
-                zoomSubOn: false, //按钮缩放事件开启
-                range: 1, //最大100
-                x: 0,
-                y: 0,
-                width: 0,
-                height: 0,
-                maxWidth: 0,
-                maxHeight: 0,
-                minWidth: 0, //最宽
-                minHeight: 0,
-                naturalWidth: 0, //原宽
-                naturalHeight: 0
-            }
-        };
-    },
+			// 原图展示属性
+			scale: {
+				zoomAddOn: false, //按钮缩放事件开启
+				zoomSubOn: false, //按钮缩放事件开启
+				range: 1, //最大100
+				x: 0,
+				y: 0,
+				width: 0,
+				height: 0,
+				maxWidth: 0,
+				maxHeight: 0,
+				minWidth: 0, //最宽
+				minHeight: 0,
+				naturalWidth: 0, //原宽
+				naturalHeight: 0
+			}
+		};
+	},
 
-    computed: {
-        // 进度条样式
-        progressStyle: function progressStyle() {
-            var progress = this.progress;
+	computed: {
+		// 进度条样式
+		progressStyle: function progressStyle() {
+			var progress = this.progress;
 
-            return {
-                width: progress + '%'
-            };
-        },
+			return {
+				width: progress + '%'
+			};
+		},
 
-        // 原图样式
-        sourceImgStyle: function sourceImgStyle() {
-            var scale = this.scale,
-                sourceImgMasking = this.sourceImgMasking;
+		// 原图样式
+		sourceImgStyle: function sourceImgStyle() {
+			var scale = this.scale,
+			    sourceImgMasking = this.sourceImgMasking,
+			    top = scale.y + sourceImgMasking.y + 'px',
+			    left = scale.x + sourceImgMasking.x + 'px';
 
-            return {
-                top: scale.y + sourceImgMasking.y + 'px',
-                left: scale.x + sourceImgMasking.x + 'px',
-                width: scale.width + 'px',
-                height: scale.height + 'px'
-            };
-        },
+			return {
+				top: top,
+				left: left,
+				width: scale.width + 'px',
+				height: scale.height + 'px'
+			};
+		},
 
-        // 原图蒙版属性
-        sourceImgMasking: function sourceImgMasking() {
-            var width = this.width,
-                height = this.height,
-                ratio = this.ratio,
-                sourceImgContainer = this.sourceImgContainer,
-                sic = sourceImgContainer,
-                sicRatio = sic.width / sic.height,
-                x = 0,
-                y = 0,
-                w = sic.width,
-                h = sic.height,
-                scale = 1;
+		// 原图蒙版属性
+		sourceImgMasking: function sourceImgMasking() {
+			var width = this.width,
+			    height = this.height,
+			    ratio = this.ratio,
+			    sourceImgContainer = this.sourceImgContainer,
+			    sic = sourceImgContainer,
+			    sicRatio = sic.width / sic.height,
+			    x = 0,
+			    y = 0,
+			    w = sic.width,
+			    h = sic.height,
+			    scale = 1;
 
-            if (ratio < sicRatio) {
-                scale = sic.height / height;
-                w = sic.height * ratio;
-                x = (sic.width - w) / 2;
-            }
-            if (ratio > sicRatio) {
-                scale = sic.width / width;
-                h = sic.width / ratio;
-                y = (sic.height - h) / 2;
-            }
-            return {
-                scale: scale, // 蒙版相对需求宽高的缩放
-                x: x,
-                y: y,
-                width: w,
-                height: h
-            };
-        },
+			if (ratio < sicRatio) {
+				scale = sic.height / height;
+				w = sic.height * ratio;
+				x = (sic.width - w) / 2;
+			}
+			if (ratio > sicRatio) {
+				scale = sic.width / width;
+				h = sic.width / ratio;
+				y = (sic.height - h) / 2;
+			}
+			return {
+				scale: scale, // 蒙版相对需求宽高的缩放
+				x: x,
+				y: y,
+				width: w,
+				height: h
+			};
+		},
 
-        // 原图遮罩样式
-        sourceImgShadeStyle: function sourceImgShadeStyle() {
-            var sourceImgMasking = this.sourceImgMasking,
-                sourceImgContainer = this.sourceImgContainer,
-                sic = sourceImgContainer,
-                sim = sourceImgMasking,
-                w = sim.width == sic.width ? sim.width : (sic.width - sim.width) / 2,
-                h = sim.height == sic.height ? sim.height : (sic.height - sim.height) / 2;
+		// 原图遮罩样式
+		sourceImgShadeStyle: function sourceImgShadeStyle() {
+			var sourceImgMasking = this.sourceImgMasking,
+			    sourceImgContainer = this.sourceImgContainer,
+			    sic = sourceImgContainer,
+			    sim = sourceImgMasking,
+			    w = sim.width == sic.width ? sim.width : (sic.width - sim.width) / 2,
+			    h = sim.height == sic.height ? sim.height : (sic.height - sim.height) / 2;
 
-            return {
-                width: w + 'px',
-                height: h + 'px'
-            };
-        },
-        previewStyle: function previewStyle() {
-            var width = this.width,
-                height = this.height,
-                ratio = this.ratio,
-                previewContainer = this.previewContainer,
-                pc = previewContainer,
-                w = pc.width,
-                h = pc.height,
-                pcRatio = w / h;
+			return {
+				width: w + 'px',
+				height: h + 'px'
+			};
+		},
+		previewStyle: function previewStyle() {
+			var width = this.width,
+			    height = this.height,
+			    ratio = this.ratio,
+			    previewContainer = this.previewContainer,
+			    pc = previewContainer,
+			    w = pc.width,
+			    h = pc.height,
+			    pcRatio = w / h;
 
-            if (ratio < pcRatio) {
-                w = pc.height * ratio;
-            }
-            if (ratio > pcRatio) {
-                h = pc.width / ratio;
-            }
-            return {
-                width: w + 'px',
-                height: h + 'px'
-            };
-        }
-    },
-    watch: {
-        value: function value(newValue) {
-            if (newValue && this.loading != 1) {
-                this.reset();
-            }
-        }
-    },
-    methods: {
-        // 点击波纹效果
-        ripple: function ripple(e) {
-            Object(__WEBPACK_IMPORTED_MODULE_3__utils_effectRipple_js__["a" /* default */])(e);
-        },
+			if (ratio < pcRatio) {
+				w = pc.height * ratio;
+			}
+			if (ratio > pcRatio) {
+				h = pc.width / ratio;
+			}
+			return {
+				width: w + 'px',
+				height: h + 'px'
+			};
+		}
+	},
+	watch: {
+		value: function value(newValue) {
+			if (newValue && this.loading != 1) {
+				this.reset();
+			}
+		}
+	},
+	methods: {
+		// 点击波纹效果
+		ripple: function ripple(e) {
+			Object(__WEBPACK_IMPORTED_MODULE_3__utils_effectRipple_js__["a" /* default */])(e);
+		},
 
-        // 关闭控件
-        off: function off() {
-            var that = this;
-            setTimeout(function () {
-                that.value = false;
-                if (that.step == 3 && that.loading == 2) {
-                    that.setStep(1);
-                }
-            }, 200);
-        },
+		// 关闭控件
+		off: function off() {
+			var that = this;
+			setTimeout(function () {
+				that.$emit('input', false);
+				if (that.step == 3 && that.loading == 2) {
+					that.setStep(1);
+				}
+			}, 200);
+		},
 
-        // 设置步骤
-        setStep: function setStep(no) {
-            var that = this;
-            setTimeout(function () {
-                that.step = no;
-            }, 200);
-        },
+		// 设置步骤
+		setStep: function setStep(no) {
+			var that = this;
+			setTimeout(function () {
+				that.step = no;
+			}, 200);
+		},
 
 
-        /* 图片选择区域函数绑定
-         ---------------------------------------------------------------*/
-        preventDefault: function preventDefault(e) {
-            e.preventDefault();
-            return false;
-        },
-        handleClick: function handleClick(e) {
-            if (this.loading !== 1) {
-                if (e.target !== this.$els.fileinput) {
-                    e.preventDefault();
-                    if (document.activeElement !== this.$els) {
-                        this.$els.fileinput.click();
-                    }
-                }
-            }
-        },
-        handleChange: function handleChange(e) {
-            e.preventDefault();
-            if (this.loading !== 1) {
-                var files = e.target.files || e.dataTransfer.files;
-                this.reset();
-                if (this.checkFile(files[0])) {
-                    this.setSourceImg(files[0]);
-                }
-            }
-        },
+		/* 图片选择区域函数绑定
+   ---------------------------------------------------------------*/
+		preventDefault: function preventDefault(e) {
+			e.preventDefault();
+			return false;
+		},
+		handleClick: function handleClick(e) {
+			if (this.loading !== 1) {
+				if (e.target !== this.$refs.fileinput) {
+					e.preventDefault();
+					if (document.activeElement !== this.$refs) {
+						this.$refs.fileinput.click();
+					}
+				}
+			}
+		},
+		handleChange: function handleChange(e) {
+			e.preventDefault();
+			if (this.loading !== 1) {
+				var files = e.target.files || e.dataTransfer.files;
+				this.reset();
+				if (this.checkFile(files[0])) {
+					this.setSourceImg(files[0]);
+				}
+			}
+		},
 
-        /* ---------------------------------------------------------------*/
+		/* ---------------------------------------------------------------*/
 
-        // 检测选择的文件是否合适
-        checkFile: function checkFile(file) {
-            var that = this,
-                lang = that.lang,
-                maxSize = that.maxSize;
-            // 仅限图片
-            if (file.type.indexOf('image') === -1) {
-                that.hasError = true;
-                that.errorMsg = lang.error.onlyImg;
-                return false;
-            }
+		// 检测选择的文件是否合适
+		checkFile: function checkFile(file) {
+			var that = this,
+			    lang = that.lang,
+			    maxSize = that.maxSize;
+			// 仅限图片
+			if (file.type.indexOf('image') === -1) {
+				that.hasError = true;
+				that.errorMsg = lang.error.onlyImg;
+				return false;
+			}
 
-            // 超出大小
-            if (file.size / 1024 > maxSize) {
-                that.hasError = true;
-                that.errorMsg = lang.error.outOfSize + maxSize + 'kb';
-                return false;
-            }
-            return true;
-        },
+			// 超出大小
+			if (file.size / 1024 > maxSize) {
+				that.hasError = true;
+				that.errorMsg = lang.error.outOfSize + maxSize + 'kb';
+				return false;
+			}
+			return true;
+		},
 
-        // 重置控件
-        reset: function reset() {
-            this.loading = 0;
-            this.progress = 0;
-            this.hasError = false;
-            this.errorMsg = '';
-        },
+		// 重置控件
+		reset: function reset() {
+			var that = this;
+			that.loading = 0;
+			that.hasError = false;
+			that.errorMsg = '';
+			that.progress = 0;
+		},
 
-        // 设置图片源
-        setSourceImg: function setSourceImg(file) {
-            var that = this,
-                fr = new FileReader();
-            fr.onload = function (e) {
-                that.sourceImgUrl = fr.result;
-                that.startCrop();
-            };
-            fr.readAsDataURL(file);
-        },
+		// 设置图片源
+		setSourceImg: function setSourceImg(file) {
+			var that = this,
+			    fr = new FileReader();
+			fr.onload = function (e) {
+				that.sourceImgUrl = fr.result;
+				that.startCrop();
+			};
+			fr.readAsDataURL(file);
+		},
 
-        // 剪裁前准备工作
-        startCrop: function startCrop() {
-            var that = this,
-                width = that.width,
-                height = that.height,
-                ratio = that.ratio,
-                scale = that.scale,
-                sourceImgUrl = that.sourceImgUrl,
-                sourceImgMasking = that.sourceImgMasking,
-                lang = that.lang,
-                sim = sourceImgMasking,
-                img = new Image();
+		// 剪裁前准备工作
+		startCrop: function startCrop() {
+			var that = this,
+			    width = that.width,
+			    height = that.height,
+			    ratio = that.ratio,
+			    scale = that.scale,
+			    sourceImgUrl = that.sourceImgUrl,
+			    sourceImgMasking = that.sourceImgMasking,
+			    lang = that.lang,
+			    sim = sourceImgMasking,
+			    img = new Image();
 
-            img.src = sourceImgUrl;
-            img.onload = function () {
-                var nWidth = img.naturalWidth,
-                    nHeight = img.naturalHeight,
-                    nRatio = nWidth / nHeight,
-                    w = sim.width,
-                    h = sim.height,
-                    x = 0,
-                    y = 0;
-                // 图片像素不达标
-                if (nWidth < width || nHeight < height) {
-                    that.hasError = true;
-                    that.errorMsg = lang.error.lowestPx + width + '*' + height;
-                    return false;
-                }
-                if (ratio > nRatio) {
-                    h = w / nRatio;
-                    y = (sim.height - h) / 2;
-                }
-                if (ratio < nRatio) {
-                    w = h * nRatio;
-                    x = (sim.width - w) / 2;
-                }
-                scale.range = 0;
-                scale.x = x;
-                scale.y = y;
-                scale.width = w;
-                scale.height = h;
-                scale.minWidth = w;
-                scale.minHeight = h;
-                scale.maxWidth = nWidth * sim.scale;
-                scale.maxHeight = nHeight * sim.scale;
-                scale.naturalWidth = nWidth;
-                scale.naturalHeight = nHeight;
-                that.sourceImg = img;
-                that.createImg();
-                that.setStep(2);
-            };
-        },
+			img.src = sourceImgUrl;
+			img.onload = function () {
+				var nWidth = img.naturalWidth,
+				    nHeight = img.naturalHeight,
+				    nRatio = nWidth / nHeight,
+				    w = sim.width,
+				    h = sim.height,
+				    x = 0,
+				    y = 0;
+				// 图片像素不达标
+				if (nWidth < width || nHeight < height) {
+					that.hasError = true;
+					that.errorMsg = lang.error.lowestPx + width + '*' + height;
+					return false;
+				}
+				if (ratio > nRatio) {
+					h = w / nRatio;
+					y = (sim.height - h) / 2;
+				}
+				if (ratio < nRatio) {
+					w = h * nRatio;
+					x = (sim.width - w) / 2;
+				}
+				scale.range = 0;
+				scale.x = x;
+				scale.y = y;
+				scale.width = w;
+				scale.height = h;
+				scale.minWidth = w;
+				scale.minHeight = h;
+				scale.maxWidth = nWidth * sim.scale;
+				scale.maxHeight = nHeight * sim.scale;
+				scale.naturalWidth = nWidth;
+				scale.naturalHeight = nHeight;
+				that.sourceImg = img;
+				that.createImg();
+				that.setStep(2);
+			};
+		},
 
-        // 鼠标按下图片准备移动
-        imgStartMove: function imgStartMove(e) {
-            e.preventDefault();
-            // 支持触摸事件，则鼠标事件无效
-            if (this.isSupportTouch && !e.targetTouches) {
-                return false;
-            }
-            var et = e.targetTouches ? e.targetTouches[0] : e,
-                sourceImgMouseDown = this.sourceImgMouseDown,
-                scale = this.scale,
-                simd = sourceImgMouseDown;
+		// 鼠标按下图片准备移动
+		imgStartMove: function imgStartMove(e) {
+			e.preventDefault();
+			// 支持触摸事件，则鼠标事件无效
+			if (this.isSupportTouch && !e.targetTouches) {
+				return false;
+			}
+			var et = e.targetTouches ? e.targetTouches[0] : e,
+			    sourceImgMouseDown = this.sourceImgMouseDown,
+			    scale = this.scale,
+			    simd = sourceImgMouseDown;
 
-            simd.mX = et.screenX;
-            simd.mY = et.screenY;
-            simd.x = scale.x;
-            simd.y = scale.y;
-            simd.on = true;
-        },
+			simd.mX = et.screenX;
+			simd.mY = et.screenY;
+			simd.x = scale.x;
+			simd.y = scale.y;
+			simd.on = true;
+		},
 
-        // 鼠标按下状态下移动，图片移动
-        imgMove: function imgMove(e) {
-            e.preventDefault();
-            // 支持触摸事件，则鼠标事件无效
-            if (this.isSupportTouch && !e.targetTouches) {
-                return false;
-            }
-            var et = e.targetTouches ? e.targetTouches[0] : e,
-                _sourceImgMouseDown = this.sourceImgMouseDown,
-                on = _sourceImgMouseDown.on,
-                mX = _sourceImgMouseDown.mX,
-                mY = _sourceImgMouseDown.mY,
-                x = _sourceImgMouseDown.x,
-                y = _sourceImgMouseDown.y,
-                scale = this.scale,
-                sourceImgMasking = this.sourceImgMasking,
-                sim = sourceImgMasking,
-                nX = et.screenX,
-                nY = et.screenY,
-                dX = nX - mX,
-                dY = nY - mY,
-                rX = x + dX,
-                rY = y + dY;
+		// 鼠标按下状态下移动，图片移动
+		imgMove: function imgMove(e) {
+			e.preventDefault();
+			// 支持触摸事件，则鼠标事件无效
+			if (this.isSupportTouch && !e.targetTouches) {
+				return false;
+			}
+			var et = e.targetTouches ? e.targetTouches[0] : e,
+			    _sourceImgMouseDown = this.sourceImgMouseDown,
+			    on = _sourceImgMouseDown.on,
+			    mX = _sourceImgMouseDown.mX,
+			    mY = _sourceImgMouseDown.mY,
+			    x = _sourceImgMouseDown.x,
+			    y = _sourceImgMouseDown.y,
+			    scale = this.scale,
+			    sourceImgMasking = this.sourceImgMasking,
+			    sim = sourceImgMasking,
+			    nX = et.screenX,
+			    nY = et.screenY,
+			    dX = nX - mX,
+			    dY = nY - mY,
+			    rX = x + dX,
+			    rY = y + dY;
 
-            if (!on) return;
-            if (rX > 0) {
-                rX = 0;
-            }
-            if (rY > 0) {
-                rY = 0;
-            }
-            if (rX < sim.width - scale.width) {
-                rX = sim.width - scale.width;
-            }
-            if (rY < sim.height - scale.height) {
-                rY = sim.height - scale.height;
-            }
-            scale.x = rX;
-            scale.y = rY;
-        },
+			if (!on) return;
+			if (rX > 0) {
+				rX = 0;
+			}
+			if (rY > 0) {
+				rY = 0;
+			}
+			if (rX < sim.width - scale.width) {
+				rX = sim.width - scale.width;
+			}
+			if (rY < sim.height - scale.height) {
+				rY = sim.height - scale.height;
+			}
+			scale.x = rX;
+			scale.y = rY;
+		},
 
-        // 按钮按下开始放大
-        startZoomAdd: function startZoomAdd(e) {
-            var that = this,
-                scale = that.scale;
+		// 按钮按下开始放大
+		startZoomAdd: function startZoomAdd(e) {
+			var that = this,
+			    scale = that.scale;
 
-            scale.zoomAddOn = true;
+			scale.zoomAddOn = true;
 
-            function zoom() {
-                if (scale.zoomAddOn) {
-                    var range = scale.range >= 100 ? 100 : ++scale.range;
-                    that.zoomImg(range);
-                    setTimeout(function () {
-                        zoom();
-                    }, 60);
-                }
-            }
-            zoom();
-        },
+			function zoom() {
+				if (scale.zoomAddOn) {
+					var range = scale.range >= 100 ? 100 : ++scale.range;
+					that.zoomImg(range);
+					setTimeout(function () {
+						zoom();
+					}, 60);
+				}
+			}
+			zoom();
+		},
 
-        // 按钮松开或移开取消放大
-        endZoomAdd: function endZoomAdd(e) {
-            this.scale.zoomAddOn = false;
-        },
+		// 按钮松开或移开取消放大
+		endZoomAdd: function endZoomAdd(e) {
+			this.scale.zoomAddOn = false;
+		},
 
-        // 按钮按下开始缩小
-        startZoomSub: function startZoomSub(e) {
-            var that = this,
-                scale = that.scale;
+		// 按钮按下开始缩小
+		startZoomSub: function startZoomSub(e) {
+			var that = this,
+			    scale = that.scale;
 
-            scale.zoomSubOn = true;
+			scale.zoomSubOn = true;
 
-            function zoom() {
-                if (scale.zoomSubOn) {
-                    var range = scale.range <= 0 ? 0 : --scale.range;
-                    that.zoomImg(range);
-                    setTimeout(function () {
-                        zoom();
-                    }, 60);
-                }
-            }
-            zoom();
-        },
+			function zoom() {
+				if (scale.zoomSubOn) {
+					var range = scale.range <= 0 ? 0 : --scale.range;
+					that.zoomImg(range);
+					setTimeout(function () {
+						zoom();
+					}, 60);
+				}
+			}
+			zoom();
+		},
 
-        // 按钮松开或移开取消缩小
-        endZoomSub: function endZoomSub(e) {
-            var scale = this.scale;
+		// 按钮松开或移开取消缩小
+		endZoomSub: function endZoomSub(e) {
+			var scale = this.scale;
 
-            scale.zoomSubOn = false;
-        },
-        zoomChange: function zoomChange(e) {
-            this.zoomImg(e.target.value);
-        },
+			scale.zoomSubOn = false;
+		},
+		zoomChange: function zoomChange(e) {
+			this.zoomImg(e.target.value);
+		},
 
-        // 缩放原图
-        zoomImg: function zoomImg(newRange) {
-            var that = this,
-                sourceImgMasking = this.sourceImgMasking,
-                sourceImgMouseDown = this.sourceImgMouseDown,
-                scale = this.scale,
-                maxWidth = scale.maxWidth,
-                maxHeight = scale.maxHeight,
-                minWidth = scale.minWidth,
-                minHeight = scale.minHeight,
-                width = scale.width,
-                height = scale.height,
-                x = scale.x,
-                y = scale.y,
-                range = scale.range,
-                sim = sourceImgMasking,
-                sWidth = sim.width,
-                sHeight = sim.height,
-                nWidth = minWidth + (maxWidth - minWidth) * newRange / 100,
-                nHeight = minHeight + (maxHeight - minHeight) * newRange / 100,
-                nX = sWidth / 2 - nWidth / width * (sWidth / 2 - x),
-                nY = sHeight / 2 - nHeight / height * (sHeight / 2 - y);
+		// 缩放原图
+		zoomImg: function zoomImg(newRange) {
+			var that = this,
+			    sourceImgMasking = this.sourceImgMasking,
+			    sourceImgMouseDown = this.sourceImgMouseDown,
+			    scale = this.scale,
+			    maxWidth = scale.maxWidth,
+			    maxHeight = scale.maxHeight,
+			    minWidth = scale.minWidth,
+			    minHeight = scale.minHeight,
+			    width = scale.width,
+			    height = scale.height,
+			    x = scale.x,
+			    y = scale.y,
+			    range = scale.range,
+			    sim = sourceImgMasking,
+			    sWidth = sim.width,
+			    sHeight = sim.height,
+			    nWidth = minWidth + (maxWidth - minWidth) * newRange / 100,
+			    nHeight = minHeight + (maxHeight - minHeight) * newRange / 100,
+			    nX = sWidth / 2 - nWidth / width * (sWidth / 2 - x),
+			    nY = sHeight / 2 - nHeight / height * (sHeight / 2 - y);
 
-            // 判断新坐标是否超过蒙版限制
-            if (nX > 0) {
-                nX = 0;
-            }
-            if (nY > 0) {
-                nY = 0;
-            }
-            if (nX < sWidth - nWidth) {
-                nX = sWidth - nWidth;
-            }
-            if (nY < sHeight - nHeight) {
-                nY = sHeight - nHeight;
-            }
+			// 判断新坐标是否超过蒙版限制
+			if (nX > 0) {
+				nX = 0;
+			}
+			if (nY > 0) {
+				nY = 0;
+			}
+			if (nX < sWidth - nWidth) {
+				nX = sWidth - nWidth;
+			}
+			if (nY < sHeight - nHeight) {
+				nY = sHeight - nHeight;
+			}
 
-            // 赋值处理
-            scale.x = nX;
-            scale.y = nY;
-            scale.width = nWidth;
-            scale.height = nHeight;
-            scale.range = newRange;
-            setTimeout(function () {
-                if (scale.range == newRange) {
-                    that.createImg();
-                }
-            }, 300);
-        },
+			// 赋值处理
+			scale.x = nX;
+			scale.y = nY;
+			scale.width = nWidth;
+			scale.height = nHeight;
+			scale.range = newRange;
+			setTimeout(function () {
+				if (scale.range == newRange) {
+					that.createImg();
+				}
+			}, 300);
+		},
 
-        // 生成需求图片
-        createImg: function createImg(e) {
-            var that = this,
-                mime = that.mime,
-                sourceImg = that.sourceImg,
-                _that$scale = that.scale,
-                x = _that$scale.x,
-                y = _that$scale.y,
-                width = _that$scale.width,
-                height = _that$scale.height,
-                scale = that.sourceImgMasking.scale,
-                canvas = that.$els.canvas,
-                ctx = canvas.getContext('2d');
+		// 生成需求图片
+		createImg: function createImg(e) {
+			var that = this,
+			    mime = that.mime,
+			    sourceImg = that.sourceImg,
+			    _that$scale = that.scale,
+			    x = _that$scale.x,
+			    y = _that$scale.y,
+			    width = _that$scale.width,
+			    height = _that$scale.height,
+			    scale = that.sourceImgMasking.scale,
+			    canvas = that.$refs.canvas,
+			    ctx = canvas.getContext('2d');
 
-            if (e) {
-                // 取消鼠标按下移动状态
-                that.sourceImgMouseDown.on = false;
-            }
-            ctx.clearRect(0, 0, that.width, that.height);
-            ctx.drawImage(sourceImg, x / scale, y / scale, width / scale, height / scale);
-            that.createImgUrl = canvas.toDataURL(mime);
-        },
+			if (e) {
+				// 取消鼠标按下移动状态
+				that.sourceImgMouseDown.on = false;
+			}
+			ctx.clearRect(0, 0, that.width, that.height);
+			ctx.drawImage(sourceImg, x / scale, y / scale, width / scale, height / scale);
+			that.createImgUrl = canvas.toDataURL(mime);
+		},
+		prepareUpload: function prepareUpload() {
+			var url = this.url,
+			    createImgUrl = this.createImgUrl,
+			    field = this.field,
+			    ki = this.ki;
 
-        // 预备上传
-        prepareUpload: function prepareUpload() {
-            var url = this.url,
-                createImgUrl = this.createImgUrl,
-                field = this.field,
-                ki = this.ki;
+			this.$emit('crop-success', createImgUrl, field, ki);
+			if (typeof url == 'string' && url) {
+				this.upload();
+			} else {
+				this.off();
+			}
+		},
 
-            this.$dispatch('cropSuccess', createImgUrl, field, ki);
-            if (typeof url == 'string' && url) {
-                this.upload();
-            } else {
-                this.off();
-            }
-        },
+		// 上传图片
+		upload: function upload() {
+			var that = this,
+			    lang = this.lang,
+			    imgFormat = this.imgFormat,
+			    mime = this.mime,
+			    url = this.url,
+			    params = this.params,
+			    headers = this.headers,
+			    field = this.field,
+			    ki = this.ki,
+			    createImgUrl = this.createImgUrl,
+			    fmData = new FormData();
 
-        // 上传图片
-        upload: function upload() {
-            var that = this,
-                lang = this.lang,
-                imgFormat = this.imgFormat,
-                mime = this.mime,
-                url = this.url,
-                params = this.params,
-                field = this.field,
-                ki = this.ki,
-                createImgUrl = this.createImgUrl,
-                fmData = new FormData();
+			fmData.append(field, Object(__WEBPACK_IMPORTED_MODULE_2__utils_data2blob_js__["a" /* default */])(createImgUrl, mime), field + '.' + imgFormat);
+			// 添加其他参数
+			if ((typeof params === 'undefined' ? 'undefined' : _typeof(params)) == 'object' && params) {
+				Object.keys(params).forEach(function (k) {
+					fmData.append(k, params[k]);
+				});
+			}
 
-            fmData.append(field, Object(__WEBPACK_IMPORTED_MODULE_2__utils_data2blob_js__["a" /* default */])(createImgUrl, mime), field + '.' + imgFormat);
+			// 监听进度回调
+			var uploadProgress = function uploadProgress(event) {
+				if (event.lengthComputable) {
+					that.progress = 100 * Math.round(event.loaded) / event.total;
+				}
+			};
 
-            // 添加其他参数
-            if ((typeof params === 'undefined' ? 'undefined' : _typeof(params)) == 'object' && params) {
-                Object.keys(params).forEach(function (k) {
-                    fmData.append(k, params[k]);
-                });
-            }
+			// 上传文件
+			that.reset();
+			that.loading = 1;
+			that.setStep(3);
 
-            // 监听进度回调
-            var uploadProgress = function uploadProgress(event) {
-                if (event.lengthComputable) {
-                    that.progress = 100 * Math.round(event.loaded) / event.total;
-                }
-            };
+			new Promise(function (resolve, reject) {
+				var client = new XMLHttpRequest();
+				console.log(url);
+				client.open('POST', url, true);
+				client.onreadystatechange = function () {
+					console.log(this.readyState);
+					if (this.readyState !== 4) {
 
-            // 上传文件
-            that.reset();
-            that.loading = 1;
-            that.setStep(3);
-            new Promise(function (resolve, reject) {
-                var client = new XMLHttpRequest();
-                client.open('POST', url, true);
-                client.onreadystatechange = function () {
-                    if (this.readyState !== 4) {
-                        return;
-                    }
-                    if (this.status === 200 || this.status === 201) {
-                        resolve(JSON.parse(this.responseText));
-                    } else {
-                        reject(this.status);
-                    }
-                };
-                client.upload.addEventListener("progress", uploadProgress, false); //监听进度\
-                // 设置header
-                if ((typeof headers === 'undefined' ? 'undefined' : _typeof(headers)) == 'object' && headers) {
-                    Object.keys(headers).forEach(function (k) {
-                        client.setRequestHeader(k, headers[k]);
-                    });
-                }
-                client.send(fmData);
-            }).then(
-            // 上传成功
-            function (resData) {
-                if (that.value) {
-                    that.loading = 2;
-                    that.$dispatch('cropUploadSuccess', resData, field, ki);
-                }
-            },
-            // 上传失败
-            function (sts) {
-                if (that.value) {
-                    that.loading = 3;
-                    that.hasError = true;
-                    that.errorMsg = lang.fail;
-                    that.$dispatch('cropUploadFail', sts, field, ki);
-                }
-            });
-        }
-    },
-    created: function created() {
-        var _this = this;
+						return;
+					}
+					console.log(this.status);
+					if (this.status === 200 || this.status === 201) {
+						console.log(222);
+						resolve(JSON.parse(this.responseText));
+					} else {
 
-        // 绑定按键esc隐藏此插件事件
-        document.addEventListener('keyup', function (e) {
-            if (_this.value && (e.key == 'Escape' || e.keyCode == 27)) {
-                _this.off();
-            }
-        });
-    }
+						reject(this.status);
+					}
+				};
+
+				client.upload.addEventListener("progress", uploadProgress, false); //监听进度
+				// 设置header
+				if ((typeof headers === 'undefined' ? 'undefined' : _typeof(headers)) == 'object' && headers) {
+					Object.keys(headers).forEach(function (k) {
+						client.setRequestHeader(k, headers[k]);
+					});
+				}
+				client.send(fmData);
+			}).then(
+			// 上传成功
+			function (resData) {
+				if (that.value) {
+					that.loading = 2;
+					that.$emit('crop-upload-success', resData, field, ki);
+				}
+			},
+			// 上传失败
+			function (sts) {
+				if (that.value) {
+					that.loading = 3;
+					that.hasError = true;
+					that.errorMsg = lang.fail;
+					that.$emit('crop-upload-fail', sts, field, ki);
+				}
+			});
+		}
+	},
+	created: function created() {
+		var _this = this;
+
+		// 绑定按键esc隐藏此插件事件
+		document.addEventListener('keyup', function (e) {
+			if (_this.value && (e.key == 'Escape' || e.keyCode == 27)) {
+				_this.off();
+			}
+		});
+	}
 });
 
 /***/ }),
@@ -54663,11 +54666,8 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       rawName: "v-show",
       value: (false),
       expression: "false"
-    }, {
-      name: "el",
-      rawName: "v-el:fileinput",
-      arg: "fileinput"
     }],
+    ref: "fileinput",
     attrs: {
       "type": "file"
     },
@@ -54684,7 +54684,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     staticClass: "vicp-error"
   }, [_c('i', {
     staticClass: "vicp-icon2"
-  }), _vm._v(" " + _vm._s(_vm.errorMsg) + "\r\n            ")]), _vm._v(" "), _c('div', {
+  }), _vm._v(" " + _vm._s(_vm.errorMsg) + "\r\n\t\t\t")]), _vm._v(" "), _c('div', {
     staticClass: "vicp-operate"
   }, [_c('a', {
     on: {
@@ -54696,15 +54696,17 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
   }, [_c('div', {
     staticClass: "vicp-crop"
   }, [_c('div', {
+    directives: [{
+      name: "show",
+      rawName: "v-show",
+      value: (true),
+      expression: "true"
+    }],
     staticClass: "vicp-crop-left"
   }, [_c('div', {
     staticClass: "vicp-img-container"
   }, [_c('img', {
-    directives: [{
-      name: "el",
-      rawName: "v-el:img",
-      arg: "img"
-    }],
+    ref: "img",
     staticClass: "vicp-img",
     style: (_vm.sourceImgStyle),
     attrs: {
@@ -54764,6 +54766,12 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       "mouseup": _vm.endZoomAdd
     }
   })])]), _vm._v(" "), _c('div', {
+    directives: [{
+      name: "show",
+      rawName: "v-show",
+      value: (true),
+      expression: "true"
+    }],
     staticClass: "vicp-crop-right"
   }, [_c('div', {
     staticClass: "vicp-preview"
@@ -54829,7 +54837,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     staticClass: "vicp-error"
   }, [_c('i', {
     staticClass: "vicp-icon2"
-  }), _vm._v(" " + _vm._s(_vm.errorMsg) + "\r\n                ")]), _vm._v(" "), _c('div', {
+  }), _vm._v(" " + _vm._s(_vm.errorMsg) + "\r\n\t\t\t\t")]), _vm._v(" "), _c('div', {
     directives: [{
       name: "show",
       rawName: "v-show",
@@ -54839,7 +54847,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     staticClass: "vicp-success"
   }, [_c('i', {
     staticClass: "vicp-icon3"
-  }), _vm._v(" " + _vm._s(_vm.lang.success) + "\r\n                ")])]), _vm._v(" "), _c('div', {
+  }), _vm._v(" " + _vm._s(_vm.lang.success) + "\r\n\t\t\t\t")])]), _vm._v(" "), _c('div', {
     staticClass: "vicp-operate"
   }, [_c('a', {
     on: {
@@ -54859,11 +54867,8 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       rawName: "v-show",
       value: (false),
       expression: "false"
-    }, {
-      name: "el",
-      rawName: "v-el:canvas",
-      arg: "canvas"
     }],
+    ref: "canvas",
     attrs: {
       "width": _vm.width,
       "height": _vm.height
@@ -54874,7 +54879,7 @@ module.exports.render._withStripped = true
 if (false) {
   module.hot.accept()
   if (module.hot.data) {
-     require("vue-hot-reload-api").rerender("data-v-3434844f", module.exports)
+     require("vue-hot-reload-api").rerender("data-v-34429bd0", module.exports)
   }
 }
 
@@ -54883,33 +54888,47 @@ if (false) {
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _c('div', [_c('my-upload', {
+  return _c('div', {
+    staticStyle: {
+      "text-align": "center"
+    }
+  }, [_c('my-upload', {
     attrs: {
       "field": "img",
       "width": 300,
       "height": 300,
-      "url": "/upload",
+      "url": "/avatar",
       "params": _vm.params,
       "headers": _vm.headers,
-      "value": _vm.show,
       "img-format": "png"
     },
     on: {
-      "update:value": function($event) {
-        _vm.show = $event
-      }
+      "crop-success": _vm.cropSuccess,
+      "crop-upload-success": _vm.cropUploadSuccess,
+      "crop-upload-fail": _vm.cropUploadFail
+    },
+    model: {
+      value: (_vm.show),
+      callback: function($$v) {
+        _vm.show = $$v
+      },
+      expression: "show"
     }
   }), _vm._v(" "), _c('img', {
     attrs: {
-      "width": "48px",
+      "width": "80px",
       "src": _vm.imgDataUrl
     }
-  }), _vm._v(" "), _c('a', {
+  }), _vm._v(" "), _c('div', {
+    staticStyle: {
+      "margin-top": "20px"
+    }
+  }, [_c('a', {
     staticClass: "btn",
     on: {
       "click": _vm.toggleShow
     }
-  }, [_vm._v("修改头像")])], 1)
+  }, [_vm._v("修改头像")])])], 1)
 },staticRenderFns: []}
 module.exports.render._withStripped = true
 if (false) {
