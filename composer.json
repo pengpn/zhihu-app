@@ -7,14 +7,15 @@
     "require": {
         "php": ">=7.0.0",
         "barryvdh/laravel-ide-helper": "^2.4",
+        "doctrine/dbal": "~2.3",
         "fideloper/proxy": "~3.3",
         "guzzlehttp/guzzle": "^6.3",
         "laracasts/flash": "^3.0",
         "laravel/framework": "5.5.*",
         "laravel/tinker": "~1.0",
         "naux/sendcloud": "^1.1",
-        "overtrue/laravel-ueditor": "^1.2",
-        "doctrine/dbal": "~2.3"
+        "overtrue/laravel-filesystem-qiniu": "^1.0",
+        "overtrue/laravel-ueditor": "^1.2"
     },
     "require-dev": {
         "filp/whoops": "~2.0",
