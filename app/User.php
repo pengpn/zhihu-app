@@ -36,6 +36,11 @@ class User extends Authenticatable
         'settings' => 'array'
     ];
 
+    public function settings()
+    {
+        return new Setting($this);
+    }
+
     public function owns(Model $model)
     {
         return $this->id == $model->user_id;

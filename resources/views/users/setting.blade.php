@@ -15,7 +15,9 @@
                                 <label for="city" class="col-md-4 control-label">现居城市</label>
 
                                 <div class="col-md-6">
-                                    <input id="city" type="text" class="form-control" name="city" value="{{ user()->settings['city'] }}" required autofocus>
+                                    <input id="city" type="text" class="form-control" name="city"
+                                           value="@if(!empty(user()->settings)){{ user()->settings['city'] }}@endif"
+                                           required >
 
                                     @if ($errors->has('city'))
                                         <span class="help-block">
@@ -26,10 +28,11 @@
                             </div>
 
                             <div class="form-group{{ $errors->has('bio') ? ' has-error' : '' }}">
-                                <label for="bio" class="col-md-4 control-label">输入新密码</label>
+                                <label for="bio" class="col-md-4 control-label">个人签名</label>
 
                                 <div class="col-md-6">
-                                    <input id="bio" type="password" class="form-control" name="password" value="{{ user()->settings['bio'] }}" required autofocus>
+                                    <input id="bio" type="text" class="form-control" name="bio"
+                                           value="@if(!empty(user()->settings)){{ user()->settings['bio'] }}@endif" required >
 
                                     @if ($errors->has('bio'))
                                         <span class="help-block">
